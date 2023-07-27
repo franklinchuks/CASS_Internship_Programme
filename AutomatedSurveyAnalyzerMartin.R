@@ -8,7 +8,7 @@
 ##
 ## Date Created: 27.07.2023 (version 2.0)
 ##
-## Copyright (c) Universtiy of Tartu Centre for Applied Social Sciences, 2023
+## Copyright (c) University of Tartu Centre for Applied Social Sciences, 2023
 ## Email: martin.hayford@ut.ee
 ##
 ## ---------------------------
