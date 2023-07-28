@@ -65,7 +65,7 @@ column_range_start <- 19
 column_range_end <- 25
 column_range <- seq(from = column_range_start, to = column_range_end)
 
-# loop through each question
+# loop through each question, questions are manually designated by the column_range
 for (i in column_range)
 {
   #use cleaned_df to create frequency tables
