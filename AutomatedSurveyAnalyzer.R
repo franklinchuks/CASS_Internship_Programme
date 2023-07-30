@@ -104,3 +104,4 @@ frequencies <- function(data) {
 
 
 
+
