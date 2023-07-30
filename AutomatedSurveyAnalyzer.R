@@ -70,5 +70,37 @@ for (i in column_range)
 {
   #use cleaned_df to create frequency tables
 }
+
+#defining frequency function
+frequencies <- function(data) {
   
+  #convert to list
+  frequency_list <- list()
   
+  #column names of specified columns
+  column_names <- colnames(cleaned_df)[column_range]
+  
+  for (column_name in column_names) {
+    #get frequencies for each column
+    frequency_table <- table(data[[column_name]])
+    
+    #convert list to df
+    frequency_df <- as.data.frame(frequency_table)
+    
+    #get column names
+    colnames(frequency_df) <- c("Value", column_name)
+    
+    #append frequency to the list
+    frequency_list[[column_name]] <- frequency_df
+  }
+  
+  #join the frequency tables
+  join_freq_df <- Reduce(function(x, y) merge(x, y, by = "Value", all = TRUE), frequency_list)
+  
+  #get frequency df
+  return(join_freq_df)
+}
+
+
+
+
