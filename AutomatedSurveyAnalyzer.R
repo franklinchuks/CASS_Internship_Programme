@@ -103,5 +103,37 @@ frequencies <- function(data) {
 
 
 
+##################################################################
+
+#function to calculate frequencies for a column
+get_frequencies_col <- function(data, col) {
+  #calculate frequency
+  freq_table <- table(data[[col]])
+  freq_df <- as.data.frame(freq_table)
+  
+  #add column name as new column
+  freq_df$Column <- col
+  return(freq_df)
+}
+
+#init freq_list
+freq_list <- list()
+
+#loop column range
+for (col in column_range) {
+  #call frequency function
+  freq_df <- get_frequencies_col(cleaned_df, col)
+  
+  #put each column frequency in freq_list
+  freq_list[[col]] <- freq_df
+}
+
+#put freq_list in a df
+freq_df_combined <- do.call(rbind, freq_list)
+
+View(freq_df_combined)
+
+#######################################################################
+
 
 
