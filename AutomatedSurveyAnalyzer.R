@@ -21,6 +21,7 @@
 ## set working directory for Mac and PC
 
 # automatically set to local github repository
+#setwd("")
 
 ## ---------------------------
 
@@ -40,17 +41,16 @@ packages <- c("tidyverse",
               "survey")
 
 #Looping through packages
-for (package in packages) {
+for (package in packages)
+{
   #Checking if package is loaded
-  if (!require(package, character.only = TRUE)) {
+  if (!require(package, character.only = TRUE)) 
+  {
     #Install and load package if not loaded yet
     install.packages(package)
     library(package, character.only = TRUE)
   }
 }
-
-#set wd
-#setwd("")
 
 #main df
 df <- read.csv("SchoolLunchSurvey.csv")
@@ -72,7 +72,8 @@ for (i in column_range)
 }
 
 #defining frequency function
-frequencies <- function(data) {
+frequencies <- function(data) 
+{
   
   #convert to list
   frequency_list <- list()
@@ -80,7 +81,8 @@ frequencies <- function(data) {
   #column names of specified columns
   column_names <- colnames(cleaned_df)[column_range]
   
-  for (column_name in column_names) {
+  for (column_name in column_names) 
+  {
     #get frequencies for each column
     frequency_table <- table(data[[column_name]])
     
