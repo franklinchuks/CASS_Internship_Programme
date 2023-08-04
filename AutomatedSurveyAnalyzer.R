@@ -55,7 +55,7 @@ for (package in packages)
 #main df
 df <- read.csv("SchoolLunchSurvey.csv")
 cleaned_df <- df %>%
-  clean_names() %>%
+  clean_names() %>% #leave special characters
   remove_empty(c("rows", "cols"))
 
 scale_df <- read.csv("SchoolLunchScales.csv")
@@ -69,8 +69,10 @@ column_range <- seq(from = column_range_start, to = column_range_end)
 for (i in column_range)
 {
   #use cleaned_df to create frequency tables
+  print(i)
 }
 
+test1 <- frequencies(cleaned_df)
 #defining frequency function
 frequencies <- function(data) 
 {
