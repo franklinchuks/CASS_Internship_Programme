@@ -139,3 +139,21 @@ View(freq_df_combined)
 
 
 
+
+
+frequencies <- function(data) {
+  #calculate frequency table for column
+  freq_table <- table(data)
+  freq_df <- as.data.frame(freq_table)
+  
+  #transpose data frame
+  freq_df_t <- t(freq_df)
+  colnames(freq_df_t) <- freq_df_t[1,]
+  freq_df_t <- freq_df_t[-1,]
+  freq_df_t <- as.numeric(as.character(freq_df_t))
+  
+  return(t(freq_df_t))
+}
+
+freq <- frequencies(df[19])
+
