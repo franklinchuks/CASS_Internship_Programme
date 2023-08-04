@@ -58,6 +58,24 @@ cleaned_df <- df %>%
   clean_names() %>% #leave special characters
   remove_empty(c("rows", "cols"))
 
+
+clean_df <- function(df, value = "-NA-") {
+  #standardize column names
+  names(df) <- tolower(names(df))
+  names(df) <- gsub("[^[:alnum:]]+", "_", names(df))
+  names(df) <- make.unique(names(df))
+  
+  #remove columns and rows with all missing values
+  df <- df[, colSums(is.na(df)) < nrow(df)]
+  df <- df[rowSums(is.na(df)) < ncol(df), ]
+  df <- df[!duplicated(df), ]
+  df[df == ""] <- value
+  
+  return(df)
+}
+
+
+
 scale_df <- read.csv("SchoolLunchScales.csv")
 
 #column to start and end
