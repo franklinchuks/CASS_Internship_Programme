@@ -69,7 +69,23 @@ column_range <- seq(from = column_range_start, to = column_range_end)
 for (i in column_range)
 {
   #use cleaned_df to create frequency tables
-  print(i)
+  #Frequency function
+  freq <- frequencies(df[i])
+  #sort columns, record the color palette
+  
+  #add demographics
+  for (demo in demoList)
+  {
+    #enumerate all the options in the demographic (optionList)
+    for (option in optionList)
+    {
+      filter(df[i], df[demo]== option)
+      #create a subset of the data based on the [option]
+      #do a frequency of that subset
+      #sort columns
+      #append that frequency row to the above frequency table
+    }
+  }
 }
 
 test1 <- frequencies(cleaned_df)
@@ -152,8 +168,8 @@ frequencies <- function(data) {
   freq_df_t <- t(freq_df)
   colnames(freq_df_t) <- freq_df_t[1,]
   freq_df_t <- freq_df_t[-1,]
-  freq_df_t <- as.numeric(as.character(freq_df_t))
-  
+  #Clean "no response", or other NA types, give appropriate name to the column
+  #Add the question text in column 1, or at least column number
   return(t(freq_df_t))
 }
 
