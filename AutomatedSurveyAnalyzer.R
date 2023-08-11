@@ -77,11 +77,13 @@ for (question in column_range)
   #use cleaned_df to create frequency tables
   #Frequency function
   freq <- frequencies(df[question])
+  rowLabels <- list()
+  rowLabels <- append(rowLabels,"Total")
 
   #add demographics
   for (demo in demoList)
   {
-    optionList <- unique(clean_df[[demo]])#enumerate all the options in the demographic (optionList)
+    optionList <- sort(unique(clean_df[[demo]]))#enumerate all the options in the demographic (optionList)
     
     for (option in optionList)
     {
@@ -91,6 +93,8 @@ for (question in column_range)
       freqD <- frequencies(subset[question])
       #append that frequency row to the above frequency table
       freq <- bind_rows(freq,freqD)
+      #add demographic option to the row label
+      rowLabels <- append(rowLabels,option)
     }
   }
   
