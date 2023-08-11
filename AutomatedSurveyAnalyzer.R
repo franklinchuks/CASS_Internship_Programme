@@ -52,144 +52,65 @@ for (package in packages)
   }
 }
 
+source("ASAfunctions.R")
+
 #main df
 df <- read.csv("SchoolLunchSurvey.csv")
-cleaned_df <- df %>%
-  clean_names() %>% #leave special characters
-  remove_empty(c("rows", "cols"))
 
+clean_df <- clean_df(df)
 
-clean_df <- function(df, value = "-NA-") {
-  #standardize column names
-  names(df) <- tolower(names(df))
-  names(df) <- gsub("[^[:alnum:]]+", "_", names(df))
-  names(df) <- make.unique(names(df))
-  
-  #remove columns and rows with all missing values
-  df <- df[, colSums(is.na(df)) < nrow(df)]
-  df <- df[rowSums(is.na(df)) < ncol(df), ]
-  df <- df[!duplicated(df), ]
-  df[df == ""] <- value
-  
-  return(df)
-}
+scales <- as.list(read.csv("SchoolLunchScales.csv"))
+scales <- lapply(scales, function(z){ z[!is.na(z) & z != ""]})
 
-
-
-scale_df <- read.csv("SchoolLunchScales.csv")
-
+# Manual Inputs ----
 #column to start and end
 column_range_start <- 19
 column_range_end <- 25
 column_range <- seq(from = column_range_start, to = column_range_end)
 
-# loop through each question, questions are manually designated by the column_range
-for (i in column_range)
+demoList <- list(3,2)
+
+
+
+
+# analysis ----
+for (question in column_range)
 {
   #use cleaned_df to create frequency tables
   #Frequency function
-  freq <- frequencies(df[i])
+  freq <- frequencies(df[question])
   #sort columns, record the color palette
-  
+  j=0
+  for(scale in scales)
+  {
+    j <- j+1
+    
+    if(identical(sort(scale),sort(colnames(freq))))
+    {
+      freq <- freq[scale]
+      factors <- scale
+      customcolors <- unlist(scales[j+1])
+      names(customcolors) = scale
+    }
+  }
   #add demographics
   for (demo in demoList)
   {
     #enumerate all the options in the demographic (optionList)
+    optionList<- unique(clean_df[[demo]])
     for (option in optionList)
     {
-      filter(df[i], df[demo]== option)
       #create a subset of the data based on the [option]
+      subset <- filter(clean_df, !!as.symbol(names(clean_df[demo])) == option)
       #do a frequency of that subset
+      freqD <- frequencies(subset[question])
       #sort columns
       #append that frequency row to the above frequency table
     }
   }
+  
+  #convert to percentage
+  #hypothesis test
+  #charts
+  #output report
 }
-
-test1 <- frequencies(cleaned_df)
-#defining frequency function
-frequencies <- function(data) 
-{
-  
-  #convert to list
-  frequency_list <- list()
-  
-  #column names of specified columns
-  column_names <- colnames(cleaned_df)[column_range]
-  
-  for (column_name in column_names) 
-  {
-    #get frequencies for each column
-    frequency_table <- table(data[[column_name]])
-    
-    #convert list to df
-    frequency_df <- as.data.frame(frequency_table)
-    
-    #get column names
-    colnames(frequency_df) <- c("Value", column_name)
-    
-    #append frequency to the list
-    frequency_list[[column_name]] <- frequency_df
-  }
-  
-  #join the frequency tables
-  join_freq_df <- Reduce(function(x, y) merge(x, y, by = "Value", all = TRUE), frequency_list)
-  
-  #get frequency df
-  return(join_freq_df)
-}
-
-
-
-##################################################################
-
-#function to calculate frequencies for a column
-get_frequencies_col <- function(data, col) {
-  #calculate frequency
-  freq_table <- table(data[[col]])
-  freq_df <- as.data.frame(freq_table)
-  
-  #add column name as new column
-  freq_df$Column <- col
-  return(freq_df)
-}
-
-#init freq_list
-freq_list <- list()
-
-#loop column range
-for (col in column_range) {
-  #call frequency function
-  freq_df <- get_frequencies_col(cleaned_df, col)
-  
-  #put each column frequency in freq_list
-  freq_list[[col]] <- freq_df
-}
-
-#put freq_list in a df
-freq_df_combined <- do.call(rbind, freq_list)
-
-View(freq_df_combined)
-
-#######################################################################
-
-
-
-
-
-frequencies <- function(data) {
-  #calculate frequency table for column
-  freq_table <- table(data)
-  freq_df <- as.data.frame(freq_table)
-  
-  #transpose data frame
-  freq_df_t <- t(freq_df)
-  colnames(freq_df_t) <- freq_df_t[1,]
-  freq_df_t <- freq_df_t[-1,]
-  #Clean "no response", or other NA types, give appropriate name to the column
-  #Add the question text in column 1, or at least column number
-  return(t(freq_df_t))
-}
-
-freq <- frequencies(df[19])
-
