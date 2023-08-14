@@ -24,19 +24,18 @@
 
 ## ---------------------------
 
-frequencies <- function(data) 
-{
+frequencies <- function(data) {
   #calculate frequency table for column
   freq_table <- table(data)
-  freq_df <- as.data.frame(freq_table)
-  
   #transpose data frame
-  freq_df_t <- t(freq_df)
+  freq_df_t <- t(as.data.frame(freq_table))
+  #include column name
   colnames(freq_df_t) <- freq_df_t[1,]
-  freq_df_t <- freq_df_t[-1,-1] # long-term don't remove first column!
-  #Clean "no response", or other NA types, give appropriate name to the column
-  #Add the question text in column 1, or at least column number
-  return(as.data.frame(t(freq_df_t)))
+  #rem first row
+  freq_df_t <- t(freq_df_t[-1,])
+  
+  freq_df_t <- freq_df_t[, !colnames(freq_df_t) %in% c("-NA-")]
+  return(t(freq_df_t))
 }
 
 clean_df <- function(df, value = "-NA-") 
