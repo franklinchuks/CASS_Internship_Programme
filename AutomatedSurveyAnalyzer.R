@@ -1,32 +1,25 @@
 ## ---------------------------
-##
 ## Script name: Automated Survey Analyzer
 ##
-## Purpose of script: Universal utility for analyzing survey data and outputting usable results and visulaizations
+## Purpose of script: Universal utility for analyzing survey data and outputting usable results and visualizations
 ##
 ## Author: Martin Hayford
 ##
 ## Date Created: 27.07.2023 (version 2.0)
 ##
-## Copyright (c) Universtiy of Tartu Centre for Applied Social Sciences, 2023
-## Email: martin.hayford@ut.ee
-##
-## ---------------------------
+## Copyright (c) University of Tartu Centre for Applied Social Sciences, 2023
+## Email: martin.hayford@ut.ee 
 ##
 ## Notes: Internship project code for CASS summer internship program 2023
-##   
-##
 ## ---------------------------
-
 ## set working directory for Mac and PC
-
 # automatically set to local github repository
-#setwd("")
-
+# setwd("")
 ## ---------------------------
 
 #clear environment if not empty
-if (length(ls()) > 0) {
+if (length(ls()) > 0)
+{
   rm(list = ls())
   closeAllConnections()
 }
@@ -71,6 +64,7 @@ demoList <- c(3,2) #each column number that will be used for demographic analysi
 
 
 column_range <- seq(from = column_range_start, to = column_range_end)
+
 # analysis ----
 for (question in column_range)
 {
@@ -104,7 +98,7 @@ for (question in column_range)
   {
     j <- j+1
     
-    if(identical(sort(scale),sort(colnames(freq)))) #proceed if the scale of the frequency table matches the scale we are checkign against in the scales csv file
+    if(identical(sort(scale),sort(colnames(freq)))) #proceed if the scale of the frequency table matches the scale we are checking against in the scales csv file
     {
       freq <- freq[scale] #this line orders the columns based on the order of the scale csv file
       factors <- scale # this preserves the correct order for later when we must set the factor levels

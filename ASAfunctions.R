@@ -24,7 +24,8 @@
 
 ## ---------------------------
 
-frequencies <- function(data) {
+frequencies <- function(data) 
+{
   #calculate frequency table for column
   freq_table <- table(data)
   freq_df <- as.data.frame(freq_table)
@@ -38,7 +39,8 @@ frequencies <- function(data) {
   return(as.data.frame(t(freq_df_t)))
 }
 
-clean_df <- function(df, value = "-NA-") {
+clean_df <- function(df, value = "-NA-") 
+{
   #standardize column names
   names(df) <- tolower(names(df))
   names(df) <- gsub("[^[:alnum:]]+", "_", names(df))
