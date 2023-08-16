@@ -34,7 +34,7 @@ frequencies <- function(data) {
   #rem first row
   freq_df_t <- t(freq_df_t[-1,])
   
-  freq_df_t <- freq_df_t[, !colnames(freq_df_t) %in% c("-NA-")]
+  freq_df_t <- freq_df_t[, !colnames(freq_df_t) %in% c("-NA-")] #columns counting the frequency of NA are not being named NA?
   return(t(freq_df_t))
 }
 
