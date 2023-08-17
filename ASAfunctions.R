@@ -35,7 +35,7 @@ frequencies <- function(data) {
   freq_df_t <- t(freq_df_t[-1,])
   
   freq_df_t <- freq_df_t[, !colnames(freq_df_t) %in% c("-NA-")] #columns counting the frequency of NA are not being named NA?
-  return(t(freq_df_t))
+  return(as.data.frame(t(freq_df_t)))
 }
 
 clean_df <- function(df, value = "-NA-") 

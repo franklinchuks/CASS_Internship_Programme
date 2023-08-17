@@ -57,7 +57,7 @@ scales <- lapply(scales, function(z){ z[!is.na(z) & z != ""]}) #remove NA elemen
 
 # Manual Inputs ----
 #column to start and end
-column_range_start <- 19 #first question
+column_range_start <- 24 #first question
 column_range_end <- 25 #last question
 
 demoList <- c(3,2) #each column number that will be used for demographic analysis (in the desired order of appearance in the frequency table)
@@ -70,7 +70,7 @@ for (question in column_range)
 {
   #use cleaned_df to create frequency tables
   #Frequency function
-  freq <- frequencies(df[question])
+  freq <- frequencies(clean_df[question])
   rowLabels <- list() #declare empty list to contain the row labels
   rowLabels <- append(rowLabels,"Total") # add the total line to the row labels
 
