@@ -57,8 +57,8 @@ scales <- lapply(scales, function(z){ z[!is.na(z) & z != ""]}) #remove NA elemen
 
 # Manual Inputs ----
 #column to start and end
-column_range_start <- 24 #first question
-column_range_end <- 25 #last question
+column_range_start <- 19 #first question
+column_range_end <- 23 #last question
 
 demoList <- c(3,2) #each column number that will be used for demographic analysis (in the desired order of appearance in the frequency table)
 
@@ -71,8 +71,7 @@ for (question in column_range)
   #use cleaned_df to create frequency tables
   #Frequency function
   freq <- frequencies(clean_df[question])
-  rowLabels <- list() #declare empty list to contain the row labels
-  rowLabels <- append(rowLabels,"Total") # add the total line to the row labels
+  rowVector <- c("Total") #declare vector and add Total row
 
   #add demographics
   for (demo in demoList)
@@ -88,7 +87,7 @@ for (question in column_range)
       #append that frequency row to the above frequency table
       freq <- bind_rows(freq,freqD)
       #add demographic option to the row label list
-      rowLabels <- append(rowLabels,option)
+      rowVector <- append(rowVector,option)
     }
   }
   
@@ -106,9 +105,22 @@ for (question in column_range)
       names(customcolors) = scale # this names the elements of the array based on that scale
     }
   }
-  print(freq)
+  freqNames <- freq %>% # create new df with the names of the rows as the first column
+    add_column(rowVector, .before = 1) %>% #add subgroup names as the first column
+    rename(Alagrupid = rowVector) #alagrupid = subgroups, rename the auto-named column from the descriptive variable name "rowVector"
+  print(freqNames)
+  
   #convert to percentage
   #hypothesis test
   #charts
+  
+  freqLong <- freqNames %>% #convert from wide to long data (for the ggPlot)
+    pivot_longer(cols=colnames(freq), #use the column names from the original freq df to enlongate ( all the different responses)
+                 names_to='response', #call this new column response
+                 values_to='frequency') # call the column of values associated with each response frequency
+  freqLong$response <- factor(freqLong$response, levels = factors)
+    
+  ggOut <- frequency_chart(freqLong,customcolors)
+
   #output report
 }

@@ -68,3 +68,26 @@ fpercent <- function(ordinals) #convert frequencies to percentages in df
   
   return(ordinalsPercent)
 }
+
+frequency_chart <- function(plotData, custom_colors)
+{
+  ggFreq <- ggplot(plotData, aes(fill= fct_rev(response), y=as.numeric(as.character(frequency)), x = fct_inorder(Alagrupid))) + #basic plot structure
+    geom_bar(position="fill", stat = "identity", width = 0.7) + #horizontal bar size and setup
+    theme(aspect.ratio = 4/3,legend.position="top", legend.key.size = unit(0.4, 'cm'),legend.text = element_text(size=8), panel.background = element_rect(fill="white"),
+          panel.grid.major = element_line(colour = "black")) + coord_flip()+ # size, legend info, grids, backgrounds, etc.
+    labs(x ="", y = "Vastuste osakaal (%)",fill = "") + #axis labels
+    scale_y_continuous(labels = scales::percent)+ #axis denominations
+    guides(fill = guide_legend(nrow=2))+ # make legend 2 rows
+    guides(fill = guide_legend(reverse = TRUE))+
+    geom_text(data = plotData %>% 
+                group_by(Alagrupid) %>%
+                mutate(p = as.numeric(as.character(frequency)) / sum(as.numeric(as.character(frequency)))) %>%
+                ungroup(),
+              aes(y = p, label = ifelse(p>0.039,scales::percent(p,accuracy = 1L),"")),
+              position = position_stack(vjust = 0.5),
+              show.legend = FALSE,size=2.5)+ #convert long to percentages, why do this? I already have percentages in another table. I guess I just hate myself
+    scale_fill_manual(values = custom_colors, drop = FALSE) # manually assign color gradient since palettes do not account for consistency across questions with different numbers of responses, also "I don't know" should be gray
+  
+  return(ggFreq)
+}
+
