@@ -38,6 +38,21 @@ frequencies <- function(data) {
   return(as.data.frame(t(freq_df_t)))
 }
 
+frequency2 <- function(data) {
+  frequency <- table(data)
+  
+  values <- names(frequency)
+  frequency_df <- data.frame(matrix(0, nrow = 1, ncol = length(values)))
+  colnames(frequency_df) <- values
+  
+  for (i in seq_along(values)) {
+    frequency_df[1, i] <- frequency[[values[i]]]
+  }
+  
+  frequency_df <- frequency_df[, !colnames(frequency_df) %in% c("-NA-")]
+  return(frequency_df)
+}
+
 clean_df <- function(df, value = "-NA-") 
 {
   #standardize column names
