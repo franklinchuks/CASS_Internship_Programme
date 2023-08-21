@@ -118,9 +118,9 @@ for (question in column_range)
     pivot_longer(cols=colnames(freq), #use the column names from the original freq df to enlongate ( all the different responses)
                  names_to='response', #call this new column response
                  values_to='frequency') # call the column of values associated with each response frequency
-  freqLong$response <- factor(freqLong$response, levels = factors)
+  freqLong$response <- factor(freqLong$response, levels = factors) # set the factor levels to the ones saved earlier based on the scales.csv manual input file
     
-  ggOut <- frequency_chart(freqLong,customcolors)
+  ggOut <- frequency_chart(freqLong,customcolors) #call the ggplot2 frequency chart function, pass through the Long form of the frequency table and the custom colors we imported from the scales.csv manual input file
   print(ggOut)
 
   #output report
