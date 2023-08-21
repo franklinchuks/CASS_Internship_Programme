@@ -90,7 +90,7 @@ percentages <- function(data) {
   percentage_df <- data.frame(matrix(0, nrow = 1, ncol = length(values)))
   colnames(percentage_df) <- values
   for (i in seq_along(values)) {
-    percentage_df[1, i] <- round(((data[1, i] / total_values) * 100), 2)
+    percentage_df[1, i] <- paste0(round(((data[1, i] / total_values) * 100), 0), "%")
   }
   return(percentage_df)
 }
