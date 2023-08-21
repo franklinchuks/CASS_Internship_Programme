@@ -84,6 +84,17 @@ fpercent <- function(ordinals) #convert frequencies to percentages in df
   return(ordinalsPercent)
 }
 
+percentages <- function(data) {
+  values <- colnames(data)
+  total_values <- sum(data)
+  percentage_df <- data.frame(matrix(0, nrow = 1, ncol = length(values)))
+  colnames(percentage_df) <- values
+  for (i in seq_along(values)) {
+    percentage_df[1, i] <- round(((data[1, i] / total_values) * 100), 2)
+  }
+  return(percentage_df)
+}
+
 frequency_chart <- function(plotData, custom_colors)
 {
   ggFreq <- ggplot(plotData, aes(fill= fct_rev(response), y=as.numeric(as.character(frequency)), x = fct_inorder(Alagrupid))) + #basic plot structure
