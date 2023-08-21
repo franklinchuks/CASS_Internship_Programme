@@ -49,7 +49,7 @@ frequency2 <- function(data) {
     frequency_df[1, i] <- frequency[[values[i]]]
   }
   
-  frequency_df <- frequency_df[, !colnames(frequency_df) %in% c("-NA-")]
+  frequency_df <- frequency_df[, !colnames(frequency_df) %in% c("-NA-"),drop = FALSE]
   return(frequency_df)
 }
 
