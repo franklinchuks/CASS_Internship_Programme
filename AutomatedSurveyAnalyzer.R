@@ -57,8 +57,8 @@ scales <- lapply(scales, function(z){ z[!is.na(z) & z != ""]}) #remove NA elemen
 
 # Manual Inputs ----
 #column to start and end
-column_range_start <- 19 #first question
-column_range_end <- 23 #last question
+column_range_start <- 24 #first question
+column_range_end <- 25 #last question
 
 demoList <- c(3,2) #each column number that will be used for demographic analysis (in the desired order of appearance in the frequency table)
 
@@ -70,7 +70,7 @@ for (question in column_range)
 {
   #use cleaned_df to create frequency tables
   #Frequency function
-  freq <- frequencies(clean_df[question])
+  freq <- frequency2(clean_df[question])
   rowVector <- c("Total") #declare vector and add Total row
 
   #add demographics
@@ -83,7 +83,7 @@ for (question in column_range)
       #create a subset of the data based on the [option]
       subset <- filter(clean_df, !!as.symbol(names(clean_df[demo])) == option) #ugly filter requiring changing datatype and syntactic sugar indicating that the internal functions should run before, not parallel to the external function
       #do a frequency of that subset
-      freqD <- frequencies(subset[question])
+      freqD <- frequency2(subset[question])
       #append that frequency row to the above frequency table
       freq <- bind_rows(freq,freqD)
       #add demographic option to the row label list
