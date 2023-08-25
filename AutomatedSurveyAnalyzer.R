@@ -112,6 +112,7 @@ for (question in column_range)
   
   #convert to percentage
   #hypothesis test
+  #    Fisher's exact test
   #charts
   
   freqLong <- freqNames %>% #convert from wide to long data (for the ggPlot)
