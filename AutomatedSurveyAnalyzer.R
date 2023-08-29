@@ -42,8 +42,8 @@ for (question in column_range)
   perc <- percentage_func(cleaned_df[question])
   rowVector <- c("Total")
 
-  freq <- demo_func(type = "frequency", data, cleaned_df)
-  perc <- demo_func(type = "percentage", data, cleaned_df)
+  freq <- demo_func(type = "frequency", freq, cleaned_df)
+  perc <- demo_func(type = "percentage", perc, cleaned_df)
   
   freq <- sort_func(freq, scales)
   perc <- sort_func(perc, scales)
@@ -59,7 +59,4 @@ for (question in column_range)
   
   print(freqNames)
   
-  #convert to percentage
-  #hypothesis test
-  #    Fisher's exact test
 }
