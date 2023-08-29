@@ -35,11 +35,11 @@ percentage_func <- function(data) {
   return(frequency_df)
 }
 
-demo_func <- function(type, data) {
-  optionList <- sort(unique(clean_df[[demo]]))
+demo_func <- function(type, data, df) {
+  optionList <- sort(unique(df[[demo]]))
   rowVector <- c()
   for (option in optionList) {
-    subset <- filter(clean_df, !!as.symbol(names(clean_df[demo])) == option)
+    subset <- filter(df, !!as.symbol(names(df[demo])) == option)
     if (type == "frequency") {
       dataD <- frequency_func(subset[question])
     } else if (type == "percentage") {
