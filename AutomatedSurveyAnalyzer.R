@@ -58,5 +58,6 @@ for (question in column_range)
   
   
   print(freqNames)
+  print(percNames)
   
 }
