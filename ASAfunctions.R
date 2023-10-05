@@ -37,7 +37,7 @@ percentage_func <- function(data) {
 
 demo_func <- function(type, data, df) {
   optionList <- sort(unique(df[[demo]]))
-  rowVector <- c()
+  rowVector <- c("Total")
   for (option in optionList) {
     subset <- filter(df, !!as.symbol(names(df[demo])) == option)
     if (type == "frequency") {
@@ -48,7 +48,7 @@ demo_func <- function(type, data, df) {
     data <- bind_rows(data, dataD)
     rowVector <- append(rowVector, option)
   }
-  return(data)
+  return(list(rowVector = rowVector, data))
 }
 
 sort_func <- function(data, scales) {
