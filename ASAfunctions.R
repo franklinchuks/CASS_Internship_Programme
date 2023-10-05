@@ -62,4 +62,13 @@ sort_func <- function(data, scales) {
   return(data)
 }
 
+hyp_test <- function(df) {
+  expected_freq <- chisq.test(df)$expected
+  if(all(expected_freq > 5)) {
+    chisq.test(freqNames_matrix)
+  } else {
+    fisher.test(freqNames_matrix, simulate.p.value = TRUE, B = 1e5)
+  }
+}
+
 

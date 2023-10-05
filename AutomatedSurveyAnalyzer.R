@@ -39,11 +39,8 @@ column_range <- seq(from = column_range_start, to = column_range_end)
 for (question in column_range)
 {
   freq <- frequency_func(cleaned_df[question])
-  
   freq <- demo_func(type = "frequency", freq, cleaned_df)
-  
   freq <- sort_func(freq, scales)
-  
   freq <- data.frame(freq)
   rowVector <- c()
   
@@ -52,5 +49,10 @@ for (question in column_range)
     rename(Alagrupid = rowVector)
   
   View(freqNames)
-  
 }
+
+freqNames_NoAlagrupid <- freqNames[, !(names(freqNames) %in% "Alagrupid")]
+freqNames_matrix <- as.matrix(freqNames_NoAlagrupid)
+freqNames_matrix <- ifelse(is.na(freqNames_matrix), 0, freqNames_matrix)
+
+hyp_test(freqNames_matrix)
